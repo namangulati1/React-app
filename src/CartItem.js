@@ -1,33 +1,15 @@
 import React from 'react';
 
 class CartItem extends React.Component {
-    increaseQantity = () => {
-        // this.state.qty+=1;
-        //console.log('this',this.state);
-        //form 1 of set state
-        // this.setState({
-        //     qty: this.state.qty + 1
-        // });
-        //second form of set state
-        this.setState((prevState) => {
-            return {
-                qty: prevState.qty+1
-            }
-        });
-    }
-    decreaseQantity = () => {
-        const {qty} = this.state;
-        if(qty === 0)
-            return;
-        this.setState((prevState) => {
-            return {
-                qty: prevState.qty-1
-            }
-        });
-    }
     render () {
         console.log('this.props', this.props)
         const { price, title, qty } = this.props.product;
+        const { 
+            product, 
+            onIncreaseQuantity, 
+            onDecreaseQuantity, 
+            onDeleteProduct 
+        } = this.props;
         return (
             <div className='cart-item'>
                 <div className='left-block'>
@@ -43,18 +25,19 @@ class CartItem extends React.Component {
                     alt='increase' 
                     className='action-icons' 
                     src='https://cdn-icons-png.flaticon.com/128/1828/1828926.png' 
-                    onClick={this.increaseQantity}
+                    onClick={() => onIncreaseQuantity(product)}
                 />
                 <img 
                     alt='decrease' 
                     className='action-icons' 
                     src='https://cdn-icons-png.flaticon.com/128/992/992683.png'
-                    onClick={this.decreaseQantity}
+                    onClick={() => onDecreaseQuantity(product)}
                 />
                 <img 
                     alt='delete' 
                     className='action-icons' 
                     src='https://cdn-icons-png.flaticon.com/128/3405/3405244.png' 
+                    onClick={() => onDeleteProduct(product.id)}
                 />
                 </div>
                 </div>
