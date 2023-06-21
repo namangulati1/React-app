@@ -38,6 +38,8 @@ componentDidMount () {
 
   this.db
     .collection('products')
+    // .where('price', '>', 99)
+    .orderBy('price', 'desc')
     .onSnapshot((snapshot) => {
       console.log(snapshot);
       snapshot.docs.map((doc) => {
@@ -106,10 +108,22 @@ handleDecreaseQuantity = (product) => {
 }
 handleDeleteProduct = (id) => {
     const {products} = this.state; 
-    const items = products.filter((item) => item.id!==id);
-    this.setState({
-        products: items,
-    })
+    // const items = products.filter((item) => item.id!==id);
+    // this.setState({
+    //     products: items,
+    // })
+
+    const docRef = this.db.collection('products').doc(id);
+
+    docRef
+      .delete()
+      .then(() => {
+        console.log("Document Deleted successfully");
+      })
+      .catch((error) => {
+        console.log('error', error);
+      })
+
 }
 
   getCartCount = () => {
